@@ -1,5 +1,5 @@
 import React from "react";
-import { IonApp } from "@ionic/react";
+import { IonApp, IonRouterOutlet } from "@ionic/react";
 import { Route } from "react-router-dom";
 import { IonReactRouter } from "@ionic/react-router";
 
@@ -28,12 +28,14 @@ import "./theme/variables.css";
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <Route exact path="/">
-        <Courses />
-      </Route>
-      <Route path="/course-goals">
-        <CourseGoals />
-      </Route>
+      <IonRouterOutlet>
+        <Route exact path="/">
+          <Courses />
+        </Route>
+        <Route path="/course-goals">
+          <CourseGoals />
+        </Route>
+      </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
 );
