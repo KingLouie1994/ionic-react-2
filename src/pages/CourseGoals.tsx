@@ -15,12 +15,15 @@ import {
   IonItemSliding,
   IonItemOptions,
   IonItemOption,
+  IonFab,
+  IonFabButton,
+  isPlatform,
 } from "@ionic/react";
 
 import { useParams } from "react-router-dom";
 
 import { COURSE_DATA } from "./Courses";
-import { create, trash } from "ionicons/icons";
+import { addOutline, create, trash } from "ionicons/icons";
 
 const CourseGoals: React.FC = () => {
   const selectedCourseId = useParams<{ courseId: string }>().courseId;
@@ -29,13 +32,17 @@ const CourseGoals: React.FC = () => {
     (course) => course.id === selectedCourseId
   );
 
-  const deleteGoalHandler = () => {
+  const startDeleteGoalHandler = () => {
     console.log("Deleted...");
   };
 
   const editGoalHandler = (event: React.MouseEvent) => {
     event.stopPropagation();
     console.log("Edit...");
+  };
+
+  const addGoalHandler = () => {
+    console.log("Adding...");
   };
 
   return (
@@ -48,6 +55,13 @@ const CourseGoals: React.FC = () => {
           <IonTitle>
             {selectedCourse ? selectedCourse.title : "No course found!"}
           </IonTitle>
+          {!isPlatform("android") && (
+            <IonButtons slot="end">
+              <IonButton onClick={addGoalHandler}>
+                <IonIcon slot="icon-only" icon={addOutline} />
+              </IonButton>
+            </IonButtons>
+          )}
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -57,7 +71,7 @@ const CourseGoals: React.FC = () => {
               return (
                 <IonItemSliding key={goal.id}>
                   <IonItemOptions side="start">
-                    <IonItemOption onClick={deleteGoalHandler} color="danger">
+                    <IonItemOption onClick={startDeleteGoalHandler} color="danger">
                       <IonIcon slot="icon-only" icon={trash} />
                     </IonItemOption>
                   </IonItemOptions>
@@ -85,6 +99,13 @@ const CourseGoals: React.FC = () => {
               );
             })}
           </IonList>
+        )}
+        {isPlatform("android") && (
+          <IonFab horizontal="end" vertical="bottom" slot="fixed">
+            <IonFabButton color="secondary" onClick={addGoalHandler}>
+              <IonIcon icon={addOutline} />
+            </IonFabButton>
+          </IonFab>
         )}
       </IonContent>
     </IonPage>
