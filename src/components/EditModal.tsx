@@ -33,7 +33,7 @@ const EditModal: React.FC<{
             <IonCol>
               <IonItem>
                 <IonLabel position="floating">Your Goal</IonLabel>
-                <IonInput type="text" value={props.editedGoal?.text}/>
+                <IonInput type="text" value={props.editedGoal?.text} />
               </IonItem>
             </IonCol>
           </IonRow>
@@ -44,7 +44,9 @@ const EditModal: React.FC<{
               </IonButton>
             </IonCol>
             <IonCol>
-              <IonButton color="secondary">Save</IonButton>
+              <IonButton color="secondary" expand="block">
+                Save
+              </IonButton>
             </IonCol>
           </IonRow>
         </IonGrid>

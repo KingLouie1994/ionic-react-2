@@ -4,6 +4,7 @@ import {
   IonButton,
   IonCol,
   IonContent,
+  IonDatetime,
   IonGrid,
   IonHeader,
   IonInput,
@@ -35,6 +36,18 @@ const AddCourseModal: React.FC<{ show: boolean; onCancel: () => void }> = (
               </IonItem>
             </IonCol>
           </IonRow>
+          <IonRow>
+            <IonCol>
+              <IonItem>
+                <IonLabel>Enrolment Date:</IonLabel>
+                <IonDatetime
+                  displayFormat="MM / DD / YYYY"
+                  placeholder="01 / 01 / 2020"
+                  color="secondary"
+                />
+              </IonItem>
+            </IonCol>
+          </IonRow>
           <IonRow className="ion-text-center">
             <IonCol>
               <IonButton color="dark" fill="clear" onClick={props.onCancel}>
@@ -42,7 +55,9 @@ const AddCourseModal: React.FC<{ show: boolean; onCancel: () => void }> = (
               </IonButton>
             </IonCol>
             <IonCol>
-              <IonButton color="secondary">Save</IonButton>
+              <IonButton expand="block" color="secondary">
+                Save
+              </IonButton>
             </IonCol>
           </IonRow>
         </IonGrid>
