@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import {
   IonButton,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
   IonCol,
   IonContent,
   IonGrid,
@@ -26,6 +21,7 @@ import {
 import { addOutline } from "ionicons/icons";
 
 import AddCourseModal from "../components/AddCourseModal";
+import CourseItem from "../components/CourseItem";
 
 export const COURSE_DATA = [
   {
@@ -95,30 +91,11 @@ const Courses: React.FC = () => {
               return (
                 <IonRow key={course.id}>
                   <IonCol size-md="4" offset-md="4">
-                    <IonCard>
-                      <IonCardHeader>
-                        <IonCardTitle>{course.title}</IonCardTitle>
-                        <IonCardSubtitle>
-                          Enrolled on{" "}
-                          {course.enrolled.toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "2-digit",
-                            day: "2-digit",
-                          })}
-                        </IonCardSubtitle>
-                      </IonCardHeader>
-                      <IonCardContent>
-                        <div className="ion-text-right">
-                          <IonButton
-                            fill="clear"
-                            color="secondary"
-                            routerLink={`/courses/${course.id}`}
-                          >
-                            View Course Goals
-                          </IonButton>
-                        </div>
-                      </IonCardContent>
-                    </IonCard>
+                    <CourseItem
+                      title={course.title}
+                      enrolementDate={course.enrolled}
+                      id={course.id}
+                    />
                   </IonCol>
                 </IonRow>
               );
