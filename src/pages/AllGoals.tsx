@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   IonButtons,
   IonContent,
@@ -12,20 +12,24 @@ import {
   IonToolbar,
 } from "@ionic/react";
 
-import { COURSE_DATA } from "./Courses";
+import CourseContext from "../data/course-context";
 
 const AllGoals: React.FC = () => {
-  const goals = COURSE_DATA.map((course) => {
-    return course.goals.map((goal) => {
-      return { ...goal, courseTitle: course.title };
-    });
-  }).reduce((goalArr, nestedGoals) => {
-    let updatedGoalArray = goalArr;
-    for (const goal of nestedGoals) {
-      updatedGoalArray = updatedGoalArray.concat(goal);
-    }
-    return updatedGoalArray;
-  }, []);
+  const courseCtx = useContext(CourseContext);
+
+  const goals = courseCtx.courses
+    .map((course) => {
+      return course.goals.map((goal) => {
+        return { ...goal, courseTitle: course.title };
+      });
+    })
+    .reduce((goalArr, nestedGoals) => {
+      let updatedGoalArray = goalArr;
+      for (const goal of nestedGoals) {
+        updatedGoalArray = updatedGoalArray.concat(goal);
+      }
+      return updatedGoalArray;
+    }, []);
 
   return (
     <IonPage>

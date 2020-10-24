@@ -38,11 +38,12 @@ const AddCourseModal: React.FC<{
       selectedDate.trim().length === 0
     ) {
       setError("Please enter valid inputs!");
-      props.onSave(enteredTitle!.toString(), new Date(selectedDate!));
+      return
     }
 
     setError("");
-    props.onSave(enteredTitle!.toString(), new Date(selectedDate!.toString()));
+    console.log("worked");
+    props.onSave(enteredTitle!.toString(), new Date(selectedDate!));
   };
 
   return (

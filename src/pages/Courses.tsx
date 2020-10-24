@@ -25,36 +25,6 @@ import CourseItem from "../components/CourseItem";
 
 import CourseContext from "../data/course-context";
 
-export const COURSE_DATA = [
-  {
-    id: "c1",
-    title: "Ionic + React",
-    enrolled: new Date("10/02/2020"),
-    goals: [
-      { id: "c1g1", text: "Finish the course" },
-      { id: "c1g2", text: "Learn a lot" },
-    ],
-  },
-  {
-    id: "c2",
-    title: "Git & GitHub",
-    enrolled: new Date("10/20/2020"),
-    goals: [
-      { id: "c2g1", text: "Finish the course" },
-      { id: "c2g2", text: "Learn a lot" },
-    ],
-  },
-  {
-    id: "c3",
-    title: "Node.js",
-    enrolled: new Date("10/23/2020"),
-    goals: [
-      { id: "c3g1", text: "Finish the course" },
-      { id: "c3g2", text: "Learn a lot" },
-    ],
-  },
-];
-
 const Courses: React.FC = () => {
   //   const history = useHistory();
   //   const changePageHandler = () => {
