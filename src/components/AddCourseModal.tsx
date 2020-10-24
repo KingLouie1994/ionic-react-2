@@ -42,6 +42,7 @@ const AddCourseModal: React.FC<{
     }
 
     setError("");
+    props.onSave(enteredTitle!.toString(), new Date(selectedDate!.toString()));
   };
 
   return (
