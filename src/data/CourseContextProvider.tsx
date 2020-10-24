@@ -12,6 +12,7 @@ const CourseContextProvider: React.FC = (props) => {
         { id: "c1g1", text: "Finish the course" },
         { id: "c1g2", text: "Learn a lot" },
       ],
+      included: true,
     },
   ]);
 
@@ -21,6 +22,7 @@ const CourseContextProvider: React.FC = (props) => {
       title,
       enrolled: date,
       goals: [],
+      included: true,
     };
     setCourses((curCourses) => {
       return curCourses.concat(newCourse);
@@ -87,6 +89,21 @@ const CourseContextProvider: React.FC = (props) => {
     });
   };
 
+  const changeFilter = (courseId: string, isIncluded: boolean) => {
+    setCourses((courses) => {
+      const updatedCourses = [...courses];
+      const updatedCoursesIndex = updatedCourses.findIndex(
+        (course) => course.id === courseId
+      );
+      const updatedCourse = {
+        ...updatedCourses[updatedCoursesIndex],
+        included: isIncluded,
+      };
+      updatedCourses[updatedCoursesIndex] = updatedCourse;
+      return updatedCourses;
+    });
+  };
+
   return (
     <CourseContext.Provider
       value={{
@@ -95,6 +112,7 @@ const CourseContextProvider: React.FC = (props) => {
         addCourse: addCourse,
         updateGoal: updateGoal,
         deleteGoal: deleteGoal,
+        changeFilter: changeFilter,
       }}
     >
       {props.children}
