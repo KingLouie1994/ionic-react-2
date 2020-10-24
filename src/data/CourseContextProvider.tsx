@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import CourseContext, { Course } from "./course-context";
+import CourseContext, { Course, Goal } from "./course-context";
 
 const CourseContextProvider: React.FC = (props) => {
   const [courses, setCourses] = useState<Course[]>([
@@ -27,7 +27,25 @@ const CourseContextProvider: React.FC = (props) => {
     });
   };
 
-  const addGoal = () => {};
+  const addGoal = (courseId: string, text: string) => {
+    const newGoal: Goal = {
+      id: Math.random().toString(),
+      text,
+    };
+    setCourses((courses) => {
+      const updatedCourses = [...courses];
+      const updatedCoursesIndex = updatedCourses.findIndex(
+        (course) => course.id === courseId
+      );
+      const updatedCourseGoals = updatedCourses[
+        updatedCoursesIndex
+      ].goals.concat(newGoal);
+      const updatedCourse = { ...updatedCourses[updatedCoursesIndex] };
+      updatedCourse.goals = updatedCourseGoals;
+      updatedCourses[updatedCoursesIndex] = updatedCourse;
+      return updatedCourses;
+    });
+  };
 
   const updateGoal = () => {};
 

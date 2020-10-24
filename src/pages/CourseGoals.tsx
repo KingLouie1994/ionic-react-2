@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import {
   IonHeader,
   IonToolbar,
@@ -19,13 +19,16 @@ import {
 
 import { useParams } from "react-router-dom";
 
-import { COURSE_DATA } from "./Courses";
 import { addOutline } from "ionicons/icons";
 
 import EditModal from "../components/EditModal";
 import EditableGoalItem from "../components/EditableGoalItem";
 
+import CourseContext from "../data/course-context";
+
 const CourseGoals: React.FC = () => {
+  const coursesCtx = useContext(CourseContext);
+
   const [startedDeleting, setStartedDeleting] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -35,7 +38,7 @@ const CourseGoals: React.FC = () => {
 
   const selectedCourseId = useParams<{ courseId: string }>().courseId;
 
-  const selectedCourse = COURSE_DATA.find(
+  const selectedCourse = coursesCtx.courses.find(
     (course) => course.id === selectedCourseId
   );
 
@@ -64,9 +67,14 @@ const CourseGoals: React.FC = () => {
     setSelectedGoal(null);
   };
 
-  const addGoalHandler = () => {
+  const startAddGoalHandler = () => {
     setIsEditing(true);
     setSelectedGoal(null);
+  };
+
+  const addGoalHandler = (text: string) => {
+    coursesCtx.addGoal(selectedCourseId, text);
+    setIsEditing(false);
   };
 
   return (
@@ -74,6 +82,7 @@ const CourseGoals: React.FC = () => {
       <EditModal
         show={isEditing}
         onCancel={cancelEditGoalHandler}
+        onSave={addGoalHandler}
         editedGoal={selectedGoal}
       />
       <IonToast
@@ -113,7 +122,7 @@ const CourseGoals: React.FC = () => {
             </IonTitle>
             {!isPlatform("android") && (
               <IonButtons slot="end">
-                <IonButton onClick={addGoalHandler}>
+                <IonButton onClick={startAddGoalHandler}>
                   <IonIcon slot="icon-only" icon={addOutline} />
                 </IonButton>
               </IonButtons>
@@ -138,7 +147,7 @@ const CourseGoals: React.FC = () => {
           )}
           {isPlatform("android") && (
             <IonFab horizontal="end" vertical="bottom" slot="fixed">
-              <IonFabButton color="secondary" onClick={addGoalHandler}>
+              <IonFabButton color="secondary" onClick={startAddGoalHandler}>
                 <IonIcon icon={addOutline} />
               </IonFabButton>
             </IonFab>

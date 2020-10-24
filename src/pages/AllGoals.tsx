@@ -38,7 +38,7 @@ const AllGoals: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonList>
+        <IonList lines="full">
           {goals.map((goal) => {
             return (
               <IonItem key={goal.id}>
