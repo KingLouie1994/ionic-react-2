@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  IonApp,
-  IonRouterOutlet,
-} from "@ionic/react";
+import { IonApp, IonRouterOutlet } from "@ionic/react";
 
 import { IonReactRouter } from "@ionic/react-router";
 
@@ -11,6 +8,8 @@ import { Route, Redirect } from "react-router-dom";
 import Filter from "./pages/Filter";
 import CourseTabs from "./pages/CourseTabs";
 import SideDrawer from "./components/SideDrawer";
+
+import CourseContextProvider from "./data/CourseContextProvider";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -36,15 +35,17 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <SideDrawer />
-      <IonRouterOutlet id="main">
-        <Route exact path="/filter">
-          <Filter />
-        </Route>
-        <Route path="/courses">
-          <CourseTabs />
-        </Route>
-        <Redirect exact path="/" to="/courses/list" />
-      </IonRouterOutlet>
+      <CourseContextProvider>
+        <IonRouterOutlet id="main">
+          <Route exact path="/filter">
+            <Filter />
+          </Route>
+          <Route path="/courses">
+            <CourseTabs />
+          </Route>
+          <Redirect exact path="/" to="/courses/list" />
+        </IonRouterOutlet>
+      </CourseContextProvider>
     </IonReactRouter>
   </IonApp>
 );

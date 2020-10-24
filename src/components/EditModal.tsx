@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 
 import {
   IonModal,
@@ -13,13 +13,31 @@ import {
   IonItem,
   IonLabel,
   IonInput,
+  IonText,
 } from "@ionic/react";
 
 const EditModal: React.FC<{
   show: boolean;
   onCancel: () => void;
+  onSave: (text: string) => void;
   editedGoal: { id: string; text: string } | null;
 }> = (props) => {
+  const [error, setError] = useState("");
+
+  const textRef = useRef<HTMLIonInputElement>(null);
+
+  const saveGoalHandler = () => {
+    const enteredText = textRef.current!.value;
+
+    if (!enteredText || enteredText.toString().trim().length <= 0) {
+      setError("Please enter valid inputs!");
+      return;
+    }
+
+    setError("");
+    props.onSave(enteredText.toString());
+  };
+
   return (
     <IonModal isOpen={props.show}>
       <IonHeader>
@@ -33,10 +51,23 @@ const EditModal: React.FC<{
             <IonCol>
               <IonItem>
                 <IonLabel position="floating">Your Goal</IonLabel>
-                <IonInput type="text" value={props.editedGoal?.text} />
+                <IonInput
+                  type="text"
+                  value={props.editedGoal?.text}
+                  ref={textRef}
+                />
               </IonItem>
             </IonCol>
           </IonRow>
+          {error && (
+            <IonRow>
+              <IonCol>
+                <IonText color="danger">
+                  <p>{error}</p>
+                </IonText>
+              </IonCol>
+            </IonRow>
+          )}
           <IonRow className="ion-text-center">
             <IonCol>
               <IonButton color="dark" fill="clear" onClick={props.onCancel}>
@@ -44,7 +75,11 @@ const EditModal: React.FC<{
               </IonButton>
             </IonCol>
             <IonCol>
-              <IonButton color="secondary" expand="block">
+              <IonButton
+                color="secondary"
+                expand="block"
+                onClick={saveGoalHandler}
+              >
                 Save
               </IonButton>
             </IonCol>

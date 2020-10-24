@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   IonButton,
   IonCol,
@@ -23,41 +23,15 @@ import { addOutline } from "ionicons/icons";
 import AddCourseModal from "../components/AddCourseModal";
 import CourseItem from "../components/CourseItem";
 
-export const COURSE_DATA = [
-  {
-    id: "c1",
-    title: "Ionic + React",
-    enrolled: new Date("10/02/2020"),
-    goals: [
-      { id: "c1g1", text: "Finish the course" },
-      { id: "c1g2", text: "Learn a lot" },
-    ],
-  },
-  {
-    id: "c2",
-    title: "Git & GitHub",
-    enrolled: new Date("10/20/2020"),
-    goals: [
-      { id: "c2g1", text: "Finish the course" },
-      { id: "c2g2", text: "Learn a lot" },
-    ],
-  },
-  {
-    id: "c3",
-    title: "Node.js",
-    enrolled: new Date("10/23/2020"),
-    goals: [
-      { id: "c3g1", text: "Finish the course" },
-      { id: "c3g2", text: "Learn a lot" },
-    ],
-  },
-];
+import CourseContext from "../data/course-context";
 
 const Courses: React.FC = () => {
   //   const history = useHistory();
   //   const changePageHandler = () => {
   //     history.push("/course-goals");
   //   };
+
+  const coursesCtx = useContext(CourseContext);
 
   const [isAdding, setIsAdding] = useState(false);
 
@@ -69,9 +43,18 @@ const Courses: React.FC = () => {
     setIsAdding(false);
   };
 
+  const addCourseHandler = (title: string, date: Date) => {
+    coursesCtx.addCourse(title, date);
+    setIsAdding(false);
+  };
+
   return (
     <React.Fragment>
-      <AddCourseModal show={isAdding} onCancel={cancelAddCourseHandler} />
+      <AddCourseModal
+        show={isAdding}
+        onCancel={cancelAddCourseHandler}
+        onSave={addCourseHandler}
+      />
       <IonPage>
         <IonHeader>
           <IonToolbar>
@@ -87,7 +70,7 @@ const Courses: React.FC = () => {
         </IonHeader>
         <IonContent>
           <IonGrid>
-            {COURSE_DATA.map((course) => {
+            {coursesCtx.courses.map((course) => {
               return (
                 <IonRow key={course.id}>
                   <IonCol size-md="4" offset-md="4">
