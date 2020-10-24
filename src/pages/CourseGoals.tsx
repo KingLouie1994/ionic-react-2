@@ -15,6 +15,7 @@ import {
   isPlatform,
   IonAlert,
   IonToast,
+  IonText,
 } from "@ionic/react";
 
 import { useParams } from "react-router-dom";
@@ -86,6 +87,38 @@ const CourseGoals: React.FC = () => {
     setIsEditing(false);
   };
 
+  let content = (
+    <IonText className="ion-text-center" color="dark">
+      <h3>You've got no goals for this course!</h3>
+    </IonText>
+  );
+
+  if (!selectedCourse) {
+    content = (
+      <IonText className="ion-text-center" color="dark">
+        <h2>No course found!</h2>
+      </IonText>
+    );
+  }
+
+  if (selectedCourse && selectedCourse.goals.length > 0) {
+    content = (
+      <IonList>
+        {selectedCourse.goals.map((goal) => {
+          return (
+            <EditableGoalItem
+              key={goal.id}
+              onStartDelete={startDeleteGoalHandler.bind(null, goal.id)}
+              onStartEdit={startEditGoalHandler.bind(null, goal.id)}
+              text={goal.text}
+              slidingRef={slidingOptionsRef}
+            />
+          );
+        })}
+      </IonList>
+    );
+  }
+
   return (
     <React.Fragment>
       <EditModal
@@ -136,21 +169,7 @@ const CourseGoals: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          {selectedCourse && (
-            <IonList>
-              {selectedCourse.goals.map((goal) => {
-                return (
-                  <EditableGoalItem
-                    key={goal.id}
-                    onStartDelete={startDeleteGoalHandler.bind(null, goal.id)}
-                    onStartEdit={startEditGoalHandler.bind(null, goal.id)}
-                    text={goal.text}
-                    slidingRef={slidingOptionsRef}
-                  />
-                );
-              })}
-            </IonList>
-          )}
+          {content}
           {isPlatform("android") && (
             <IonFab horizontal="end" vertical="bottom" slot="fixed">
               <IonFabButton color="secondary" onClick={startAddGoalHandler}>
