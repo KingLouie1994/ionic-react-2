@@ -1,1 +1,1 @@
-# ionic-react-2
+# Second project using Ionic-React
